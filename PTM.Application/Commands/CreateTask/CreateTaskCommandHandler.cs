@@ -1,5 +1,7 @@
-﻿using PTM.Application.DTOs.TaskDTOs;
+﻿using FluentValidation;
+using PTM.Application.DTOs.TaskDTOs;
 using PTM.Domain.Entities;
+using System.Net;
 namespace PTM.Application.Commands.CreateTask
 {
     public record CreateTaskCommand(int ProjectId, CreateTaskDto Dto) : IRequest<ApiResponse<TaskResponseDto>>;
@@ -9,24 +11,30 @@ namespace PTM.Application.Commands.CreateTask
     public class CreateTaskCommandHandler(
         IEntityCommiter commiter,
         IMapper mapper,
+        IValidator<CreateTaskDto> validator,
         ILogger<CreateTaskCommand> logger) : IRequestHandler<CreateTaskCommand, ApiResponse<TaskResponseDto>>
     {
         public async Task<ApiResponse<TaskResponseDto>> Handle(CreateTaskCommand request, CancellationToken cancellationToken)
         {
+            var validResult = validator.Validate(request.Dto);
+            if (validResult.IsValid is false)
+            {
+                return ApiResponse<TaskResponseDto>.Failure(HttpStatusCode.NotAcceptable,
+                    [.. validResult.Errors.Select(x => x.ErrorMessage)]);
+            }
             var task = new AppTask()
             {
                 ProjectId = request.ProjectId,
                 DueDate = request.Dto.DueDate,
-                Status = request.Dto.Status,
                 Title = request.Dto.Title,
             };
             var addingResult = await commiter.Tasks.AddAsync(task);
-            if(addingResult.IsSuccess is false)
+            if (addingResult.IsSuccess is false)
             {
-                return ApiResponse<TaskResponseDto>.Failure(System.Net.HttpStatusCode.InternalServerError, addingResult.Message!);
+                return ApiResponse<TaskResponseDto>.Failure(HttpStatusCode.InternalServerError, addingResult.Message!);
             }
             await commiter.CommitAsync(cancellationToken);
-            var mapToDto= mapper.Map<TaskResponseDto>(task);
+            var mapToDto = mapper.Map<TaskResponseDto>(task);
             return ApiResponse<TaskResponseDto>.Success(mapToDto);
         }
     }

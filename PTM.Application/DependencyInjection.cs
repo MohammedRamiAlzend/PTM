@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using PTM.Application;
 using PTM.Application.Queries.GetAllProjects;
 using PTM.Application.Queries.GetAllTasks;
+using PTM.Application.Validation;
 
 namespace PTM.Infrastructure
 {
@@ -17,6 +19,10 @@ namespace PTM.Infrastructure
                 cfg.RegisterServicesFromAssemblies(typeof(GetProjectsQuery).Assembly);
             
             });
+
+            services.AddValidatorsFromAssembly(typeof(CreateTaskValidation).Assembly);
+
+
             services.AddAutoMapper(typeof(Helper));
         }
     }

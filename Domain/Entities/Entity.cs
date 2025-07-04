@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PTM.Domain.Entities.Interfaces;
+namespace PTM.Domain.Entities;
 
 public class Entity
 {

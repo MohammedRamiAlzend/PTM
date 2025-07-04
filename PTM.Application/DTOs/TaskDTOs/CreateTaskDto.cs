@@ -10,7 +10,6 @@ namespace PTM.Application.DTOs.TaskDTOs
     public class CreateTaskDto
     {
         public string? Title { get; set; }
-        public AppTaskStatus Status { get; set; }
         public DateTime DueDate { get; set; }
     }
 }

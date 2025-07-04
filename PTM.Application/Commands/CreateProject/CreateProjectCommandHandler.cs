@@ -1,5 +1,7 @@
-﻿using PTM.Domain.Entities;
-
+﻿using FluentValidation;
+using PTM.Application.DTOs.TaskDTOs;
+using PTM.Domain.Entities;
+using System.Net;
 namespace PTM.Application.Commands.CreateProject;
 
 public record CreateProjectCommand(CreateProjectDto Dto) : IRequest<ApiResponse<ProjectResponseDto>>;
@@ -7,10 +9,16 @@ public record CreateProjectCommand(CreateProjectDto Dto) : IRequest<ApiResponse<
 public class CreateProjectCommandHandler(
     IEntityCommiter commiter,
     IMapper mapper,
+    IValidator<CreateProjectDto> validator,
     ILogger<CreateProjectCommand> logger) : IRequestHandler<CreateProjectCommand, ApiResponse<ProjectResponseDto>>
 {
     public async Task<ApiResponse<ProjectResponseDto>> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
     {
+        var validateResult = validator.Validate(request.Dto);
+        if(validateResult.IsValid is false)
+        {
+            return ApiResponse<ProjectResponseDto>.Failure(HttpStatusCode.NotAcceptable, [.. validateResult.Errors.Select(x => x.ErrorMessage)]);
+        }
         var project = new Project()
         {
             Name = request.Dto.Name,

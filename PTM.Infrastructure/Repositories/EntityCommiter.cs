@@ -1,5 +1,4 @@
-﻿using PTM.Domain.Entities.Interfaces;
-using PTM.Infrastructure.Repositories.Interfaces;
+﻿using PTM.Infrastructure.Repositories.Interfaces;
 using System;
 using System.Data;
 using System.Security;

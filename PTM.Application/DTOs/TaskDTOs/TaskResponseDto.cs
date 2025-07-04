@@ -11,7 +11,7 @@ namespace PTM.Application.DTOs.TaskDTOs
     {
         public required int Id { get; set; }
         public string? Title { get; set; }
-        public required AppTaskStatus Status { get; set; }
+        public required string Status { get; set; }
         public required DateTime DueDate { get; set; }
     }
 }

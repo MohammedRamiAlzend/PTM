@@ -13,7 +13,9 @@ namespace PTM.Application.Mappings
     {
         public TaskProfile()
         {
-            CreateMap<AppTask, TaskResponseDto>();
+
+            CreateMap<AppTask, TaskResponseDto>()
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));
         }
     }
 }

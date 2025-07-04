@@ -1,4 +1,5 @@
 ﻿using PTM.Infrastructure.Repositories;
+using PTM.Infrastructure.Repositories.Interfaces;
 
 namespace PTM.Infrastructure;
 

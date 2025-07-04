@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using PTM.Application.Commands.CreateProject;
-
-namespace PTM.Infrastructure
+﻿namespace PTM.Infrastructure
 {
     public static class DependencyInjection
     {
@@ -10,7 +7,10 @@ namespace PTM.Infrastructure
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssembly(typeof(CreateProjectCommand).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(CreateTaskCommand).Assembly);
+            
             });
+            
             
         }
     }

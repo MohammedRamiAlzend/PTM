@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Security;
 
-namespace PTM.Infrastructure.Repositories
+namespace PTM.Infrastructure.Repositories.Interfaces
 {
     public interface IEntityCommiter
     {

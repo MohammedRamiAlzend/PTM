@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PTM.Domain.Entities
 {
-    public class Project : IEntity
+    public class Project : Entity
     {
         public int Id { get; set; }
         public string Name { get; set; }

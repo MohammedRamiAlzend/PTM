@@ -1,4 +1,6 @@
-﻿namespace PTM.Infrastructure;
+﻿using PTM.Infrastructure.Repositories;
+
+namespace PTM.Infrastructure;
 
 public static class DependencyInjection
 {
@@ -7,5 +9,8 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>(option =>
             option.UseSqlite(connectionString)
         );
+
+        services.AddScoped<IEntityCommiter, EntityCommiter>()
+        .AddScoped(typeof(IPTMRepositoryBase<>), typeof(PTMRepositoryBase<>));
     }
 }

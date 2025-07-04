@@ -1,7 +1,7 @@
 ﻿namespace PTM.Infrastructure.Repositories;
 
-public class PTMRepositoryBase<TEntity>(DbSet<TEntity> dbSet, ILogger logger) : IDbContextRepository<TEntity>
-    where TEntity : class , IEntity
+public class PTMRepositoryBase<TEntity>(DbSet<TEntity> dbSet, ILogger logger) : IPTMRepositoryBase<TEntity>
+    where TEntity :  Entity
 {
     public async Task<DbRequest> AddAsync(TEntity entity)
     {

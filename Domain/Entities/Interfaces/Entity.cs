@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PTM.Domain.Entities.Interfaces;
 
-public interface IEntity
+public class Entity
 {
-   int Id { get; set; }
+   public int Id { get; set; }
 }

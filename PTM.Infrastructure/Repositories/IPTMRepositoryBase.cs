@@ -1,6 +1,6 @@
 ﻿namespace PTM.Infrastructure.Repositories;
 
-public interface IDbContextRepository<TEntity> where TEntity : class
+public interface IPTMRepositoryBase<TEntity> where TEntity : Entity
 {
     Task<DbRequest<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? filter = null,
     Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null);
@@ -21,5 +21,4 @@ public interface IDbContextRepository<TEntity> where TEntity : class
     Task<DbRequest> RemoveAsync(Expression<Func<TEntity, bool>> filter);
     Task<bool> AnyAsync(Expression<Func<TEntity, bool>> filter,
         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null);
-
 }

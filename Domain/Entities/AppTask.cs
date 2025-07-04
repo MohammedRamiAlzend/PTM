@@ -3,7 +3,7 @@ using PTM.Domain.Entities.Interfaces;
 
 namespace PTM.Domain.Entities;
 
-public class AppTask : IEntity
+public class AppTask : Entity
 {
     public int Id { get; set; }
     public string? Title { get; set; }

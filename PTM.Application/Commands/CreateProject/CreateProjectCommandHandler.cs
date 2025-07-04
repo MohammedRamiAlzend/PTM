@@ -1,11 +1,33 @@
-﻿namespace PTM.Application.Commands.CreateProject;
+﻿using PTM.Domain.Entities;
 
-public record CreateProjectCommand(CreateProjectDto Request) : IRequest<ApiResponse<ProjectResponseDto>>;
+namespace PTM.Application.Commands.CreateProject;
 
-public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand, ApiResponse<ProjectResponseDto>>
+public record CreateProjectCommand(CreateProjectDto Dto) : IRequest<ApiResponse<ProjectResponseDto>>;
+
+public class CreateProjectCommandHandler(
+    IEntityCommiter commiter,
+    IMapper mapper,
+    ILogger<CreateProjectCommand> logger) : IRequestHandler<CreateProjectCommand, ApiResponse<ProjectResponseDto>>
 {
     public async Task<ApiResponse<ProjectResponseDto>> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var project = new Project()
+        {
+            Name = request.Dto.Name,
+            Description = request.Dto.Description,
+            Tasks = []
+        };
+
+        var addResult = await commiter.Projects.AddAsync(project);
+        if (addResult.IsSuccess is false)
+        {
+            return ApiResponse<ProjectResponseDto>.Failure(System.Net.HttpStatusCode.InternalServerError, addResult.Message!);
+        }
+        
+        await commiter.CommitAsync(cancellationToken);
+        
+        var mapToResponse = mapper.Map<ProjectResponseDto>(project);
+        return ApiResponse<ProjectResponseDto>.Success(mapToResponse);
+
     }
 }

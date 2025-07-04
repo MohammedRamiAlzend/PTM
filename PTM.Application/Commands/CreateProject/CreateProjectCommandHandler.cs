@@ -1,6 +1,6 @@
 ﻿namespace PTM.Application.Commands.CreateProject;
 
-public record CreateProjectCommand(string Name, string Description) : IRequest<ApiResponse<ProjectResponseDto>>;
+public record CreateProjectCommand(CreateProjectDto Request) : IRequest<ApiResponse<ProjectResponseDto>>;
 
 public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand, ApiResponse<ProjectResponseDto>>
 {

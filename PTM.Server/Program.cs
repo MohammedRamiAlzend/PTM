@@ -16,18 +16,17 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
 
 builder.Services.AddInfrastructureDI(connectionString);
+builder.Services.AddApplicationDI();
 
 
 var app = builder.Build();
 
 //// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
+if (app.Environment.IsDevelopment())
+{
     app.MapOpenApi();
-    app.MapScalarApiReference(
-        op => op.Servers = []
-        );
-//}
+    app.MapScalarApiReference();
+}
 
 app.UseHttpsRedirection();
 

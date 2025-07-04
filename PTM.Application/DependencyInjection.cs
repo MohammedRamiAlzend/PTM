@@ -1,4 +1,7 @@
-﻿namespace PTM.Infrastructure
+﻿using PTM.Application.Queries.GetAllProjects;
+using PTM.Application.Queries.GetAllTasks;
+
+namespace PTM.Infrastructure
 {
     public static class DependencyInjection
     {
@@ -8,6 +11,8 @@
             {
                 cfg.RegisterServicesFromAssembly(typeof(CreateProjectCommand).Assembly);
                 cfg.RegisterServicesFromAssemblies(typeof(CreateTaskCommand).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(GetAllProjectsQuery).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(GetAllTasksQuery).Assembly);
             
             });
             

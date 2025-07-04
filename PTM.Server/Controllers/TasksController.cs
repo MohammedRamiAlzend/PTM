@@ -7,7 +7,7 @@ public class TasksController(ISender sender) : ControllerBase
     [HttpGet(TasksEndPoint.GetAll)]
     public async Task<ActionResult<ApiResponse<List<TaskResponseDto>>>> GetAllTasks([FromRoute] int projectId)
     {
-        return await sender.Send(new GetAllTasksQuery(projectId));
+        return await sender.Send(new GetTasksQuery(projectId));
     }
 
     [HttpPost(TasksEndPoint.Create)]

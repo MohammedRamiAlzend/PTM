@@ -1,12 +1,31 @@
-﻿using PTM.Application.DTOs.TaskDTOs;
+﻿using Microsoft.EntityFrameworkCore;
+using PTM.Application.DTOs.TaskDTOs;
+using System.Net;
 
 namespace PTM.Application.Queries.GetAllTasks;
 
-public record GetAllTasksQuery(int projectId): IRequest<ApiResponse<List<TaskResponseDto>>>;
-public class GetAllTasksQueryHandler : IRequestHandler<GetAllTasksQuery, ApiResponse<List<TaskResponseDto>>>
+public record GetTasksQuery(int projectId) : IRequest<ApiResponse<List<TaskResponseDto>>>;
+public class GetTasksQueryHandler(
+    IEntityCommiter commiter,
+    IMapper mapper,
+    ILogger<GetTasksQuery> logger) : IRequestHandler<GetTasksQuery, ApiResponse<List<TaskResponseDto>>>
 {
-    public Task<ApiResponse<List<TaskResponseDto>>> Handle(GetAllTasksQuery request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<List<TaskResponseDto>>> Handle(GetTasksQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        logger.LogInformation("Attempting to retrieve all tasks for project with ID: {ProjectId}", request.projectId);
+        var getTasksRequest = await commiter.Tasks.GetAllAsync(
+            include: i => i.Include(x => x.Project), 
+            filter: x => x.ProjectId == request.projectId);
+
+        if (getTasksRequest.IsSuccess is false) 
+        {
+            logger.LogError("Failed to retrieve tasks for project {ProjectId}: {ErrorMessage}", request.projectId, getTasksRequest.Message);
+            return ApiResponse<List<TaskResponseDto>>.Failure(HttpStatusCode.InternalServerError,getTasksRequest.Message!);
+        }
+
+        var data = getTasksRequest.Data;
+        var tasksAsDtos = mapper.Map<List<TaskResponseDto>>(data);
+        logger.LogInformation("Successfully retrieved {Count} tasks for project with ID: {ProjectId}", mapping.Count, request.projectId);
+        return ApiResponse<List<TaskResponseDto>>.Success(tasksAsDtos, messages: "Data retrieved successfully");
     }
 }

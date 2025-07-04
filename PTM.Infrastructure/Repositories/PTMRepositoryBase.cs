@@ -33,7 +33,7 @@ public class PTMRepositoryBase<TEntity>(DbSet<TEntity> dbSet, ILogger logger) : 
 
             var result = await query.ToListAsync();
             return result.Count == 0
-                ? DbRequest<List<TEntity>>.Failure($"No entities of type {typeof(TEntity).Name} found.")
+                ? DbRequest<List<TEntity>>.Success($"No entities of type {typeof(TEntity).Name} found.")
                 : DbRequest<List<TEntity>>.Success(result, "Entities retrieved successfully.");
         }
         catch (Exception e)

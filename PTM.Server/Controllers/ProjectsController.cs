@@ -7,7 +7,7 @@ public class ProjectController(ISender sender) : ControllerBase
     [HttpGet(ProjectsEndPoint.GetAll)]
     public async Task<ActionResult<ApiResponse<List<ProjectResponseDto>>>> GetAllProjectsAsync()
     {
-        return await sender.Send(new GetAllProjectsQuery());
+        return await sender.Send(new GetProjectsQuery());
     }
 
     [HttpPost(ProjectsEndPoint.Create)]

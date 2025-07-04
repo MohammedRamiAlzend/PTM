@@ -1,4 +1,6 @@
-﻿using PTM.Application.Queries.GetAllProjects;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PTM.Application;
+using PTM.Application.Queries.GetAllProjects;
 using PTM.Application.Queries.GetAllTasks;
 
 namespace PTM.Infrastructure
@@ -11,12 +13,11 @@ namespace PTM.Infrastructure
             {
                 cfg.RegisterServicesFromAssembly(typeof(CreateProjectCommand).Assembly);
                 cfg.RegisterServicesFromAssemblies(typeof(CreateTaskCommand).Assembly);
-                cfg.RegisterServicesFromAssemblies(typeof(GetAllProjectsQuery).Assembly);
-                cfg.RegisterServicesFromAssemblies(typeof(GetAllTasksQuery).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(GetTasksQuery).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(GetProjectsQuery).Assembly);
             
             });
-            
-            
+            services.AddAutoMapper(typeof(Helper));
         }
     }
 }

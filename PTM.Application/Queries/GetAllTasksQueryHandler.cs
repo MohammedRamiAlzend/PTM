@@ -2,7 +2,7 @@
 using PTM.Application.DTOs.TaskDTOs;
 using System.Net;
 
-namespace PTM.Application.Queries.GetAllTasks;
+namespace PTM.Application.Queries;
 
 public record GetTasksQuery(int ProjectId) : IRequest<ApiResponse<List<TaskResponseDto>>>;
 public class GetTasksQueryHandler(

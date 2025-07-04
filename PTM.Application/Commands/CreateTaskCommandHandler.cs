@@ -2,7 +2,7 @@
 using PTM.Application.DTOs.TaskDTOs;
 using PTM.Domain.Entities;
 using System.Net;
-namespace PTM.Application.Commands.CreateTask
+namespace PTM.Application.Commands
 {
     public record CreateTaskCommand(int ProjectId, CreateTaskDto Dto) : IRequest<ApiResponse<TaskResponseDto>>;
 

@@ -2,7 +2,7 @@
 using PTM.Application.DTOs.TaskDTOs;
 using PTM.Domain.Entities;
 using System.Net;
-namespace PTM.Application.Commands.CreateProject;
+namespace PTM.Application.Commands;
 
 public record CreateProjectCommand(CreateProjectDto Dto) : IRequest<ApiResponse<ProjectResponseDto>>;
 
@@ -29,7 +29,7 @@ public class CreateProjectCommandHandler(
         var addResult = await commiter.Projects.AddAsync(project);
         if (addResult.IsSuccess is false)
         {
-            return ApiResponse<ProjectResponseDto>.Failure(System.Net.HttpStatusCode.InternalServerError, addResult.Message!);
+            return ApiResponse<ProjectResponseDto>.Failure(HttpStatusCode.InternalServerError, addResult.Message!);
         }
         
         await commiter.CommitAsync(cancellationToken);

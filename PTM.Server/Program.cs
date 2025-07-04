@@ -1,6 +1,10 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using PTM.Infrastructure;
 using PTM.Server;
 using Scalar.AspNetCore;
+using System.Security.Cryptography;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +22,21 @@ ArgumentException.ThrowIfNullOrWhiteSpace(connectionString);
 builder.Services.AddInfrastructureDI(connectionString);
 builder.Services.AddApplicationDI();
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        var key = Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]!);
+
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key)
+        };
+    });
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 

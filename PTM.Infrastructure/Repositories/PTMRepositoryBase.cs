@@ -96,7 +96,7 @@ public class PTMRepositoryBase<TEntity>(DbSet<TEntity> dbSet, ILogger logger) : 
             var entity = await query.FirstOrDefaultAsync();
             return entity == null
                 ? DbRequest<TEntity>.Failure($"Entity of type {typeof(TEntity).Name} was not found.")
-                : DbRequest<TEntity>.Success(entity, $"Entity with ID {entity.Id} has been retrieved successfully.");
+                : DbRequest<TEntity>.Success(entity);
         }
         catch (Exception e)
         {

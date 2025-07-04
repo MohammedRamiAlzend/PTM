@@ -1,3 +1,6 @@
+
+using Microsoft.AspNetCore.Authorization;
+
 namespace PTM.Server.Controllers;
 
 [ApiController]
@@ -5,15 +8,17 @@ namespace PTM.Server.Controllers;
 public class ProjectController(ISender sender) : ControllerBase
 {
     [HttpGet(ProjectsEndPoint.GetAll)]
-    public async Task<ActionResult<ApiResponse<List<ProjectResponseDto>>>> GetAllProjectsAsync()
+    [Authorize(Roles ="Admin,User")]
+    public async Task<ActionResult<ApiResponse<List<ProjectResponseDto>>>> GetAllProjectsAsync( CancellationToken token)
     {
-        return await sender.Send(new GetProjectsQuery());
+        return await sender.Send(new GetProjectsQuery(),token);
     }
 
     [HttpPost(ProjectsEndPoint.Create)]
-    public async Task<ActionResult<ApiResponse<ProjectResponseDto>>> CreateProjectAsync([FromForm] CreateProjectDto project)
+    [Authorize(Roles ="Admin")]
+    public async Task<ActionResult<ApiResponse<ProjectResponseDto>>> CreateProjectAsync([FromForm] CreateProjectDto project, CancellationToken token)
     {
-        return await sender.Send(new CreateProjectCommand(project));
+        return await sender.Send(new CreateProjectCommand(project),token);
     }
 
 }

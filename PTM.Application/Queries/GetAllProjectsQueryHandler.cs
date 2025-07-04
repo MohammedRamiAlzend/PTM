@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Net;
 
-namespace PTM.Application.Queries.GetAllProjects
+namespace PTM.Application.Queries
 {
     public record GetProjectsQuery() : IRequest<ApiResponse<List<ProjectResponseDto>>>;
     public class GetProjectsQueryHandler(

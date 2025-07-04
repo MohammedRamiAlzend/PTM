@@ -13,4 +13,9 @@ public class ApiEndpoints
         public const string Create = "/{projectId:int}/tasks";
         public const string GetAll = "/{projectId:int}/tasks";
     }
+    public static class AuthEndPoint
+    {
+        public const string Login = "/login";
+        public const string Register = "/Register";
+    }
 }

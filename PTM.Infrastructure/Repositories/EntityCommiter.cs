@@ -10,6 +10,8 @@ public class EntityCommiter(ApplicationDbContext appDbContext, ILogger<EntityCom
     private readonly Dictionary<Type, object> _repos = [];
     public IPTMRepositoryBase<Project> Projects => GetRepository<Project>();
     public IPTMRepositoryBase<AppTask> Tasks => GetRepository<AppTask>();
+    public IPTMRepositoryBase<User> Users => GetRepository<User>();
+    public IPTMRepositoryBase<Role> Roles => GetRepository<Role>();
 
     public int Commit()
     {

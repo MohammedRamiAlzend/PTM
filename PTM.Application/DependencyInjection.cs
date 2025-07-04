@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PTM.Application;
-using PTM.Application.Queries.GetAllProjects;
-using PTM.Application.Queries.GetAllTasks;
+using PTM.Application.Commands;
+using PTM.Application.Queries;
 using PTM.Application.Validation;
 
 namespace PTM.Infrastructure
@@ -13,10 +13,8 @@ namespace PTM.Infrastructure
         {
             services.AddMediatR(cfg =>
             {
-                cfg.RegisterServicesFromAssembly(typeof(CreateProjectCommand).Assembly);
-                cfg.RegisterServicesFromAssemblies(typeof(CreateTaskCommand).Assembly);
-                cfg.RegisterServicesFromAssemblies(typeof(GetTasksQuery).Assembly);
                 cfg.RegisterServicesFromAssemblies(typeof(GetProjectsQuery).Assembly);
+                cfg.RegisterServicesFromAssemblies(typeof(RegisterUserCommand).Assembly);
             
             });
 

@@ -39,6 +39,7 @@ public class ProjectController(ISender sender) : ControllerBase
         return new ObjectResult(result) { StatusCode = (int?)result.Code };
     }
     [HttpDelete(TasksEndPoints.Remove)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ApiResponse>> RemoveTask([FromRoute] int taskId, CancellationToken token)
     {
         var result = await sender.Send(new RemoveTaskCommand(taskId), token);
@@ -46,6 +47,7 @@ public class ProjectController(ISender sender) : ControllerBase
     }
 
     [HttpDelete(ProjectsEndPoints.Remove)]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ApiResponse>> RemoveProject([FromRoute] int projectId, CancellationToken token)
     {
         var result = await sender.Send(new RemoveProjectCommand(projectId), token);

@@ -46,44 +46,6 @@ public class PTMRepositoryBase<TEntity>(DbSet<TEntity> dbSet, ILogger logger) : 
         }
     }
 
-    public async Task<PaginatedDbRequest<TEntity>> GetAllPaginatedAsync(
-        Expression<Func<TEntity, bool>>? filter = null,
-        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
-        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-        int pageNumber = 1,
-        int pageSize = 10)
-    {
-        if (pageNumber <= 0 || pageSize <= 0)
-            return PaginatedDbRequest<TEntity>.Failure("Page number and size must be greater than zero.");
-
-        IQueryable<TEntity> query = dbSet;
-
-        try
-        {
-            if (filter != null) query = query.Where(filter);
-            if (include != null) query = include(query);
-            if (orderBy != null) query = orderBy(query);
-
-            var totalCount = await query.CountAsync();
-            var items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-
-            if (items.Count == 0) return PaginatedDbRequest<TEntity>.Failure($"No entities of type {typeof(TEntity).Name} found.");
-
-            return PaginatedDbRequest<TEntity>.Success(
-                items,
-                totalCount,
-                pageNumber,
-                pageSize,
-                "Entities retrieved successfully.");
-        }
-        catch (Exception e)
-        {
-            logger.LogError(e, "Error retrieving paginated entities of type {EntityType}.", typeof(TEntity).Name);
-            return PaginatedDbRequest<TEntity>.Failure(
-                $"Something went wrong while retrieving paginated entities of type {typeof(TEntity).Name}. Exception: {e.Message}");
-        }
-    }
-
     public async Task<DbRequest<TEntity>> GetAsync(
         Expression<Func<TEntity, bool>>? filter = null,
         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null)

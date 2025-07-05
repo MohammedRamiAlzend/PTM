@@ -10,12 +10,7 @@ public interface IPTMRepositoryBase<TEntity> where TEntity : Entity
         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderby = null);
 
-    Task<PaginatedDbRequest<TEntity>> GetAllPaginatedAsync(
-        Expression<Func<TEntity, bool>>? filter = null,
-        Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
-        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-        int pageNumber = 1,
-        int pageSize = 10);
+
 
     Task<DbRequest> AddAsync(TEntity entity);
     Task<DbRequest> UpdateAsync(TEntity entity);

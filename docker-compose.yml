@@ -1,0 +1,6 @@
+services:
+  ptm.server:
+    image: ${DOCKER_REGISTRY-}ptmserver
+    build:
+      context: .
+      dockerfile: PTM.Server\Dockerfile

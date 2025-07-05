@@ -49,4 +49,11 @@ public class ProjectController(ISender sender) : ControllerBase
         return new ObjectResult(result) { StatusCode = (int?)result.Code };
     }
 
+    [HttpDelete(ProjectsEndPoints.Remove)]
+    public async Task<ActionResult<ApiResponse>> RemoveProject([FromRoute] int projectId, CancellationToken token)
+    {
+        var result = await sender.Send(new RemoveProjectCommand(projectId), token);
+        return new ObjectResult(result) { StatusCode = (int?)result.Code };
+    }
+
 }

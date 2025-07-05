@@ -7,7 +7,7 @@ namespace PTM.Server.Controllers;
 public class ProjectController(ISender sender) : ControllerBase
 {
     [HttpGet(ProjectsEndPoints.GetAll)]
-    //[Authorize(Roles ="Admin,User")]
+    [Authorize(Roles ="Admin,User")]
     public async Task<ActionResult<ApiResponse<List<ProjectResponseDto>>>> GetAllProjectsAsync( CancellationToken token)
     {
         var result = await sender.Send(new GetProjectsQuery(),token);
@@ -15,7 +15,7 @@ public class ProjectController(ISender sender) : ControllerBase
     }
 
     [HttpPost(ProjectsEndPoints.Create)]
-    //[Authorize(Roles ="Admin")]
+    [Authorize(Roles ="Admin")]
     public async Task<ActionResult<ApiResponse<ProjectResponseDto>>> CreateProjectAsync([FromForm] CreateProjectDto project, CancellationToken token)
     {
         var result = await sender.Send(new CreateProjectCommand(project),token);
@@ -23,12 +23,8 @@ public class ProjectController(ISender sender) : ControllerBase
     }
 
 
-
-
-
-
     [HttpGet(TasksEndPoints.GetAll)]
-    //[Authorize(Roles = "Admin,User")]
+    [Authorize(Roles = "Admin,User")]
     public async Task<ActionResult<ApiResponse<List<TaskResponseDto>>>> GetAllTasks([FromRoute] int projectId, CancellationToken token)
     {
         var result = await sender.Send(new GetTasksQuery(projectId), token);
@@ -36,7 +32,7 @@ public class ProjectController(ISender sender) : ControllerBase
     }
 
     [HttpPost(TasksEndPoints.Create)]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<ApiResponse<TaskResponseDto>>> CreateTask([FromRoute] int projectId, [FromForm] CreateTaskDto task, CancellationToken token)
     {
         var result = await sender.Send(new CreateTaskCommand(projectId, task), token);

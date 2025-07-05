@@ -1,5 +1,6 @@
 ﻿using PTM.Infrastructure.Repositories;
 using PTM.Infrastructure.Repositories.Interfaces;
+using PTM.Infrastructure.BackgroundJobs;
 
 namespace PTM.Infrastructure;
 
@@ -13,5 +14,7 @@ public static class DependencyInjection
 
         services.AddScoped<IEntityCommiter, EntityCommiter>()
         .AddScoped(typeof(IPTMRepositoryBase<>), typeof(PTMRepositoryBase<>));
+
+        services.AddHostedService<OverdueTaskBackgroundService>();
     }
 }

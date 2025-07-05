@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Authorization;
 
 namespace PTM.Server.Controllers;
@@ -7,18 +6,47 @@ namespace PTM.Server.Controllers;
 [Route($"{ApiBase}/[controller]")]
 public class ProjectController(ISender sender) : ControllerBase
 {
-    [HttpGet(ProjectsEndPoint.GetAll)]
-    [Authorize(Roles ="Admin,User")]
+    [HttpGet(ProjectsEndPoints.GetAll)]
+    //[Authorize(Roles ="Admin,User")]
     public async Task<ActionResult<ApiResponse<List<ProjectResponseDto>>>> GetAllProjectsAsync( CancellationToken token)
     {
-        return await sender.Send(new GetProjectsQuery(),token);
+        var result = await sender.Send(new GetProjectsQuery(),token);
+        return new ObjectResult(result) { StatusCode = (int?)result.Code };
     }
 
-    [HttpPost(ProjectsEndPoint.Create)]
-    [Authorize(Roles ="Admin")]
+    [HttpPost(ProjectsEndPoints.Create)]
+    //[Authorize(Roles ="Admin")]
     public async Task<ActionResult<ApiResponse<ProjectResponseDto>>> CreateProjectAsync([FromForm] CreateProjectDto project, CancellationToken token)
     {
-        return await sender.Send(new CreateProjectCommand(project),token);
+        var result = await sender.Send(new CreateProjectCommand(project),token);
+        return new ObjectResult(result) { StatusCode = (int?)result.Code };
+    }
+
+
+
+
+
+
+    [HttpGet(TasksEndPoints.GetAll)]
+    //[Authorize(Roles = "Admin,User")]
+    public async Task<ActionResult<ApiResponse<List<TaskResponseDto>>>> GetAllTasks([FromRoute] int projectId, CancellationToken token)
+    {
+        var result = await sender.Send(new GetTasksQuery(projectId), token);
+        return new ObjectResult(result) { StatusCode = (int?)result.Code };
+    }
+
+    [HttpPost(TasksEndPoints.Create)]
+    //[Authorize(Roles = "Admin")]
+    public async Task<ActionResult<ApiResponse<TaskResponseDto>>> CreateTask([FromRoute] int projectId, [FromForm] CreateTaskDto task, CancellationToken token)
+    {
+        var result = await sender.Send(new CreateTaskCommand(projectId, task), token);
+        return new ObjectResult(result) { StatusCode = (int?)result.Code };
+    }
+    [HttpDelete(TasksEndPoints.Remove)]
+    public async Task<ActionResult<ApiResponse>> RemoveTask([FromRoute] int taskId, CancellationToken token)
+    {
+        var result = await sender.Send(new RemoveTaskCommand(taskId), token);
+        return new ObjectResult(result) { StatusCode = (int?)result.Code };
     }
 
 }

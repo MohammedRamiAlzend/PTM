@@ -26,6 +26,9 @@ namespace PTM.Infrastructure.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("ProjectId")
                         .HasColumnType("INTEGER");
 
@@ -50,6 +53,9 @@ namespace PTM.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -93,6 +99,9 @@ namespace PTM.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -114,6 +123,7 @@ namespace PTM.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
+                            IsDeleted = false,
                             PasswordHash = "AIRjPkYQbFLS9DWuVCJ+AVsX4trJx9jey5/1GOpd80bcQvZieH968kt2mGtZAGjBmA==",
                             RoleId = 1,
                             Username = "admin"
@@ -121,6 +131,7 @@ namespace PTM.Infrastructure.Migrations
                         new
                         {
                             Id = 2,
+                            IsDeleted = false,
                             PasswordHash = "AIRjPkYQbFLS9DWuVCJ+AVsX4trJx9jey5/1GOpd80bcQvZieH968kt2mGtZAGjBmA==",
                             RoleId = 2,
                             Username = "user"

@@ -22,6 +22,10 @@ namespace PTM.Application.Commands
                 return ApiResponse<TaskResponseDto>.Failure(HttpStatusCode.NotAcceptable,
                     [.. validResult.Errors.Select(x => x.ErrorMessage)]);
             }
+            if(!await commiter.Projects.AnyAsync(x=>x.Id == request.ProjectId))
+            {
+                return ApiResponse<TaskResponseDto>.Failure(HttpStatusCode.NotFound, $"project with {request.ProjectId} was not found");
+            }
             var task = new AppTask()
             {
                 ProjectId = request.ProjectId,

@@ -6,20 +6,22 @@ using PTM.Application.DTOs.AuthDTOs;
 namespace PTM.Server.Controllers
 {
     [ApiController]
-    [Route($"{ApiBase}\\[controller]")]
+    [Route($"{ApiBase}/[controller]")]
     public class AuthController(ISender sender) : ControllerBase
     {
-        [HttpPost(AuthEndPoint.Login)]
+        [HttpPost(AuthEndPoints.Login)]
         [AllowAnonymous]
         public async Task<ActionResult<ApiResponse<LoginResponseDto>>> Login([FromForm] LoginRequestDto request, CancellationToken token)
         {
-            return await sender.Send(new LoginUserCommand(request), token);
+            var result = await sender.Send(new LoginUserCommand(request), token);
+            return new ObjectResult(result) { StatusCode = (int?)result.Code };
         }
-        [HttpPost(AuthEndPoint.Register)]
+        [HttpPost(AuthEndPoints.Register)]
         [Authorize(Roles ="Admin")]
         public async Task<ActionResult<ApiResponse<RegisterResponseDto>>> Register([FromForm] RegisterRequestDto request, CancellationToken token)
         {
-            return await sender.Send(new RegisterUserCommand(request), token);
+            var result = await sender.Send(new RegisterUserCommand(request), token);
+            return new ObjectResult(result) { StatusCode = (int?)result.Code };
         }
 
     }

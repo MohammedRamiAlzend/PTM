@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PTM.Application.DTOs.TaskDTOs;
+using System.Collections.Generic;
 using System.Net;
 
 namespace PTM.Application.Queries;
@@ -12,15 +13,19 @@ public class GetTasksQueryHandler(
 {
     public async Task<ApiResponse<List<TaskResponseDto>>> Handle(GetTasksQuery request, CancellationToken cancellationToken)
     {
+        if (!await commiter.Projects.AnyAsync(x => x.Id == request.ProjectId))
+        {
+            return ApiResponse<List<TaskResponseDto>>.Failure(HttpStatusCode.NotFound, $"project with {request.ProjectId} was not found");
+        }
         logger.LogInformation("Attempting to retrieve all tasks for project with ID: {ProjectId}", request.ProjectId);
         var getTasksRequest = await commiter.Tasks.GetAllAsync(
-            include: i => i.Include(x => x.Project), 
+            include: i => i.Include(x => x.Project),
             filter: x => x.ProjectId == request.ProjectId);
 
-        if (getTasksRequest.IsSuccess is false) 
+        if (getTasksRequest.IsSuccess is false)
         {
             logger.LogError("Failed to retrieve tasks for project {ProjectId}: {ErrorMessage}", request.ProjectId, getTasksRequest.Message);
-            return ApiResponse<List<TaskResponseDto>>.Failure(HttpStatusCode.InternalServerError,getTasksRequest.Message!);
+            return ApiResponse<List<TaskResponseDto>>.Failure(HttpStatusCode.InternalServerError, getTasksRequest.Message!);
         }
 
         var data = getTasksRequest.Data;

@@ -2,7 +2,7 @@
 
 namespace PTM.Domain.Entities
 {
-    public class Role : Entity
+    public class Role : Entity 
     {
         [Required]
         public string Name { get; set; }

@@ -1,4 +1,6 @@
-﻿namespace PTM.Infrastructure.Repositories;
+﻿using PTM.Domain.Entities.Interfaces;
+
+namespace PTM.Infrastructure.Repositories;
 
 public class PTMRepositoryBase<TEntity>(DbSet<TEntity> dbSet, ILogger logger) : IPTMRepositoryBase<TEntity>
     where TEntity :  Entity
@@ -116,7 +118,16 @@ public class PTMRepositoryBase<TEntity>(DbSet<TEntity> dbSet, ILogger logger) : 
         return await ExecuteOperationAsync(
             async () =>
             {
-                dbSet.Remove(getEntity.Data);
+                var entity = getEntity.Data;
+                if (entity is ISoftDeletable softDeletable)
+                {
+                    softDeletable.IsDeleted = true;
+                    dbSet.Update(entity); 
+                }
+                else
+                {
+                    dbSet.Remove(entity);
+                }
                 return DbRequest.Success();
             },
             $"Entity of type {typeof(TEntity).Name} with ID {getEntity.Data.Id} has been deleted.",

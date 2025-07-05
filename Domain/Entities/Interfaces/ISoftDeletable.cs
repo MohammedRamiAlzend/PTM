@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PTM.Domain.Entities;
+namespace PTM.Domain.Entities.Interfaces;
 
-public class Entity 
+public interface ISoftDeletable
 {
-   public int Id { get; set; }
+    bool IsDeleted { get; set; }
 }

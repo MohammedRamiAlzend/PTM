@@ -30,6 +30,12 @@ public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
                 RoleId = 2
             }
         );
+
+
+        modelBuilder.Entity<User>().HasQueryFilter(x => !x.IsDeleted);
+        modelBuilder.Entity<AppTask>().HasQueryFilter(x => !x.IsDeleted);
+        modelBuilder.Entity<Project>().HasQueryFilter(x => !x.IsDeleted);
+
         base.OnModelCreating(modelBuilder);
     }
 }

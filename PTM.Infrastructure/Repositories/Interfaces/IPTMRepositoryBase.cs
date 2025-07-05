@@ -5,7 +5,8 @@ public interface IPTMRepositoryBase<TEntity> where TEntity : Entity
     Task<DbRequest<TEntity>> GetAsync(Expression<Func<TEntity, bool>>? filter = null,
     Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null);
 
-    Task<DbRequest<List<TEntity>>> GetAllAsync(Expression<Func<TEntity, bool>>? filter = null,
+    Task<DbRequest<List<TEntity>>> GetAllAsync(
+        Expression<Func<TEntity, bool>>? filter = null,
         Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderby = null);
 

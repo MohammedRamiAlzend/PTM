@@ -9,9 +9,9 @@ namespace PTM.Application.DTOs.TaskDTOs
 {
     public class TaskResponseDto
     {
-        public required int Id { get; set; }
+        public  int Id { get; set; }
         public string? Title { get; set; }
-        public required string Status { get; set; }
-        public required DateTime DueDate { get; set; }
+        public  string Status { get; set; }
+        public  DateTime DueDate { get; set; }
     }
 }

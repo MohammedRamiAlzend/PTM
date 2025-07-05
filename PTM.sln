@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTM.Application", "PTM.Appl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTM.Infrastructure", "PTM.Infrastructure\PTM.Infrastructure.csproj", "{A90FA1F9-7FDE-4EA5-9CF8-0E20CE1550AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTM.Application.Tests", "PTM.Application.Tests\PTM.Application.Tests.csproj", "{952DA36D-ADE7-4F39-9350-84E4F8D7F992}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{A90FA1F9-7FDE-4EA5-9CF8-0E20CE1550AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A90FA1F9-7FDE-4EA5-9CF8-0E20CE1550AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A90FA1F9-7FDE-4EA5-9CF8-0E20CE1550AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{952DA36D-ADE7-4F39-9350-84E4F8D7F992}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{952DA36D-ADE7-4F39-9350-84E4F8D7F992}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{952DA36D-ADE7-4F39-9350-84E4F8D7F992}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{952DA36D-ADE7-4F39-9350-84E4F8D7F992}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

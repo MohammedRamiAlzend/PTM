@@ -18,7 +18,7 @@ namespace PTM.Application.Commands
             {
                 logger.LogError("Failed to remove task with Id: {TaskId}. Error: {ErrorMessage}", request.TaskId, removeResult.Message);
                 return ApiResponse.Failure(HttpStatusCode.InternalServerError, removeResult.Message!);            }
-            var commitResult = await commiter.CommitAsync();
+            var commitResult = await commiter.CommitAsync(cancellationToken);
             if(commitResult <= 0)
             {
                 logger.LogError("Failed to commit changes after removing task with Id: {TaskId}.", request.TaskId);

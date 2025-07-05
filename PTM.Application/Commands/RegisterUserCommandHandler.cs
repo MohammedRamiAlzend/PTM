@@ -49,7 +49,7 @@ public class RegisterUserCommandHandler(
         try
         {
             var addingResult = await commiter.Users.AddAsync(user);
-            var commitResult = await commiter.CommitAsync();
+            var commitResult = await commiter.CommitAsync(cancellationToken);
             if (addingResult.IsSuccess is false || commitResult < 0)
             {
                 logger.LogError("Failed to add user {Username} to the database or commit changes.", request.Dto.Username);
